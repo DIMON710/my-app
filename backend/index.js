@@ -5,8 +5,8 @@ const cors = require('cors');
 const router = require('./routes/index')
 const errorHandler = require('./middleware/ErrorHandlingMiddleware');
 const PORT = process.env.PORT || 5000;
-// const CLIENT = 'https://dimension-my-app.onrender.com';
-const CLIENT = 'http://localhost:5173';
+const CLIENT = 'https://dimension-my-app.onrender.com';
+// const CLIENT = 'http://localhost:5173';
 
 const app = express();
 app.use(cors({
