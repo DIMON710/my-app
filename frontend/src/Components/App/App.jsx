@@ -2,7 +2,6 @@ import './App.scss'
 import {useState} from "react";
 import {Context} from "../../Context";
 import AppRouter from "../AppRouter.jsx";
-import {BrowserRouter} from "react-router-dom";
 
 function App() {
     const [user, setUser] = useState({person: '', auth: false})
@@ -18,9 +17,7 @@ function App() {
     return (
         <div className="App">
             <Context.Provider value={context}>
-                <BrowserRouter>
-                    <AppRouter/>
-                </BrowserRouter>
+                <AppRouter/>
             </Context.Provider>
         </div>
     )
