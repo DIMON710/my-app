@@ -42,7 +42,6 @@ const Notes = () => {
     const [fetchTasks, isTasksLoading, tasksError] = useFetching(async () => {
         const response = await TasksService.getAll();
         setTasks([...response.data.rows].sort((a, b) => b.id - a.id))
-        console.log(response.data.rows)
     })
     useEffect(() => {
         fetchTasks()

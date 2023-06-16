@@ -20,7 +20,6 @@ const Navbar = () => {
             setAnim({width: authRef.current.offsetWidth + 20, left: authRef.current.offsetLeft - 10})
         }
     }, [])
-    console.log(authRef)
     const back = () => {
       setAnim({width: 25, left: 15})
     }
