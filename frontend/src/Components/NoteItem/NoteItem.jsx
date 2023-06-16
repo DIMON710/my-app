@@ -38,7 +38,7 @@ const NoteItem = ({item}) => {
                 <h3>{item.name}</h3>
                 <p style={item.complete ? {textDecoration: 'line-through'} : {}}>{item.body}</p>
             </div>
-            <Button onClick={completeFunc} style={{width: 25, height: 25, color: '#fff', borderColor: '#fff'}}>{item.complete ? '-' : '✓'}</Button>
+            <Button onClick={completeFunc} style={{width: 25, height: 25, color: '#fff', borderColor: '#fff', flexShrink: 0}}>{item.complete ? '-' : '✓'}</Button>
             {item.complete && <button className={cl.deleteBtn} onClick={deleteFunc}>X</button>}
         </div>
     );
