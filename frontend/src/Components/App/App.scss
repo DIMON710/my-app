@@ -1,0 +1,13 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  min-width: 320px;
+  max-width: 455px;
+  padding: 0 15px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #8C5CDC;
+  position: relative;
+  overflow: hidden;
+}

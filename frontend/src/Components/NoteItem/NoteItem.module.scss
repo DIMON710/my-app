@@ -1,0 +1,20 @@
+.item {
+  border: 1px solid #000;
+  background-color: #7A2DB6;
+  border-radius: 6px;
+  max-width: 300px;
+  width: 100%;
+  min-height: 39px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.deleteBtn {
+  background-color: transparent;
+  color: red;
+  border: none;
+  position: absolute;
+  right: -15px;
+}
