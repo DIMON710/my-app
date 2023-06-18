@@ -29,7 +29,7 @@ app.use(express.json());
 app.use('/api', router);
 app.use(errorHandler);
 
-const server = http.createServer(app);
+const server = http.Server(app);
 const io = socketIO(server, {
     cors: {
         origin: CLIENT,
