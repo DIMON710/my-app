@@ -46,7 +46,6 @@ const Notes = () => {
     useEffect(() => {
         socket.on('getTasks', (data) => {
             setTasks(data);
-            console.log(data);
         });
     },[socket]);
     useEffect(() => {
