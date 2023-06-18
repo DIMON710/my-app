@@ -5,7 +5,8 @@ import AppRouter from "../AppRouter.jsx";
 import {HashRouter} from "react-router-dom";
 import io from "socket.io-client";
 
-const URL = 'http://localhost:5000';
+// const URL = 'http://localhost:5000';
+const URL = 'https://dimension-server-for-my-app.onrender.com';
 const socket = io(URL);
 function App() {
     const [user, setUser] = useState({person: '', auth: false})
