@@ -2,8 +2,11 @@ import './App.scss'
 import {useState} from "react";
 import {Context} from "../../Context";
 import AppRouter from "../AppRouter.jsx";
-import {BrowserRouter, HashRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
+import io from "socket.io-client";
 
+const URL = 'http://localhost:5000';
+const socket = io(URL);
 function App() {
     const [user, setUser] = useState({person: '', auth: false})
     const [tasks, setTasks] = useState([])
@@ -13,7 +16,8 @@ function App() {
         IsAuth: [user, setUser],
         Tasks: [tasks, setTasks],
         Anim: [anim, setAnim],
-        IsLoading: [load, setLoad]
+        IsLoading: [load, setLoad],
+        socket
     }
     return (
         <div className="App">

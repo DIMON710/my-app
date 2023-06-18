@@ -8,7 +8,7 @@ import Loader from "../../Components/UI/Loader/Loader.jsx";
 import Select from "../../Components/UI/Select/Select.jsx";
 
 const Notes = () => {
-    const {Tasks, Anim, IsAuth} = useContext(Context)
+    const {Tasks, Anim, IsAuth, socket} = useContext(Context)
     const [anim, setAnim] = Anim;
     const [isAuth] = IsAuth;
     const [tasks, setTasks] = Tasks
@@ -43,6 +43,12 @@ const Notes = () => {
         const response = await TasksService.getAll();
         setTasks([...response.data.rows].sort((a, b) => b.id - a.id))
     })
+    useEffect(() => {
+        socket.on('getTasks', (data) => {
+            setTasks(data);
+            console.log(data);
+        });
+    },[socket]);
     useEffect(() => {
         fetchTasks()
     }, [])

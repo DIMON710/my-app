@@ -6,7 +6,7 @@ import {useFetching} from "../../Hooks/useFetching.js";
 import TasksService from "../../API/TasksService.js";
 import {useNavigate} from "react-router-dom";
 const NoteItem = ({item}) => {
-    const {Tasks} = useContext(Context)
+    const {Tasks, socket} = useContext(Context)
     const [notes, setNotes] = Tasks
     const navigate = useNavigate()
     const index = notes.findIndex(note => note.id === item.id);
@@ -14,7 +14,7 @@ const NoteItem = ({item}) => {
         const response = await TasksService.setTask(id, val);
         console.log(response)
     })
-    const [fetchTasks, isTasksLoading, tasksError] = useFetching(async (id) => {
+    const [removeTasks, isRemoveTasksLoading, removeTasksError] = useFetching(async (id) => {
         const response = await TasksService.deleteTask(id);
         console.log(response)
     })
@@ -22,12 +22,16 @@ const NoteItem = ({item}) => {
     const completeFunc = (e) => {
         e.stopPropagation()
         setNotes(notes.map((note, i) => i === index ? {...note, complete: !notes[index].complete} : note))
-        putTasks(item.id, !item.complete)
+        putTasks(item.id, !item.complete).then( () => {
+            socket.emit('setTasks');
+        });
     }
     const deleteFunc = (e) => {
         e.stopPropagation()
         setNotes(notes.filter((note, i) => i !== index))
-            fetchTasks(item.id)
+        removeTasks(item.id).then( () => {
+            socket.emit('setTasks');
+        });
     }
     const toTask = () => {
         navigate(`/note/${item.id}`)

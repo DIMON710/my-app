@@ -1,6 +1,5 @@
 const ApiError = require('../error/ApiError')
 const {Tasks} = require('../models/models')
-
 class TasksControllers {
     async addNew(req, res, next) {
         try {
@@ -10,12 +9,20 @@ class TasksControllers {
             }
             const task = await Tasks.create({name, body})
             return res.json(task)
-            // return res.json(req)
         } catch (e) {
             return next(ApiError.internal(e))
         }
     }
-
+    async getAllForSocket() {
+        try {
+            let tasks
+            tasks = await Tasks.findAndCountAll()
+            return tasks
+        } catch (e) {
+            console.log(e)
+            return e
+        }
+    }
     async getAll(req, res, next) {
         try {
             let {name, limit, page} = req.query
@@ -26,7 +33,7 @@ class TasksControllers {
             if (name)
                 tasks = await Tasks.findAndCountAll({where: {name}, limit, offset})
             if (!name)
-                tasks = await Tasks.findAndCountAll({limit, offset})
+                tasks = await Tasks.findAndCountAll() // {limit, offset}
             return res.json(tasks)
         } catch (e) {
             return next(ApiError.internal(e))
@@ -58,6 +65,7 @@ class TasksControllers {
             else
                 updateTask = await Tasks.update({complete: false}, {where: {id}})
             res.json(Boolean(updateTask[0]))
+
         } catch (e) {
             return next(ApiError.internal(e))
         }
