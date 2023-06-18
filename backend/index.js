@@ -9,8 +9,9 @@ const TasksControllers = require('./controllers/tasksControllers')
 const http = require("http");
 const PORT = process.env.PORT || 5000;
 const CLIENT = process.env.CLIENT;
-
+const ssl = require('ssl-express-www');
 const app = express();
+app.use(ssl);
 app.use(cors());
 
 // app.use((req, res, next) => {
