@@ -32,7 +32,8 @@ const AppRouter = () => {
                     {user.auth
                         ? <>
                             <Route index element={<Lobby/>}/>
-                            <Route path='notes' element={<Notes/>}/>
+                            <Route path='notes' element={<Navigate to='/notes/1'/>}/>
+                            <Route path='notes/:page' element={<Notes/>}/>
                             <Route path='note/:id' element={<Note/>}/>
                             <Route path='/new-note' element={<NewNote/>}/>
                             <Route path='*' element={<Navigate to='/'/>}/>

@@ -18,7 +18,7 @@ const Note = () => {
     useEffect(() => {
         fetchTask(params.id)
         setAnim({width: 25, left: 15})
-    }, [])
+    }, [params.id])
     return (
         <div>
             {isTaskLoading

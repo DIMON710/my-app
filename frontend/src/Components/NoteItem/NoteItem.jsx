@@ -6,9 +6,9 @@ import {useFetching} from "../../Hooks/useFetching.js";
 import TasksService from "../../API/TasksService.js";
 import {useNavigate} from "react-router-dom";
 const NoteItem = ({item}) => {
-    const {Tasks, socket} = useContext(Context)
-    const [notes, setNotes] = Tasks
-    const navigate = useNavigate()
+    const {Tasks, socket} = useContext(Context);
+    const [notes, setNotes] = Tasks;
+    const navigate = useNavigate();
     const index = notes.findIndex(note => note.id === item.id);
     const [putTasks, isPutTasksLoading, putTasksError] = useFetching(async (id, val) => {
         const response = await TasksService.setTask(id, val);

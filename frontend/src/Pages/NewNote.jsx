@@ -19,8 +19,6 @@ const NewNote = () => {
             fetchTasks(user.person, task).then( () => {
                 socket.emit('setTasks');
             });
-
-            setTasks([...tasks, {id: Date.now(), name: user.person, body: task, complete: false}]);
             setTask('');
         }
     }

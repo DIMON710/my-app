@@ -12,11 +12,11 @@ const Navbar = () => {
     const newNoteRef = useRef(null);
     const authRef = useRef(null);
     useEffect(() => {
-        if (location.pathname.slice(1) === 'notes' && user.auth) {
+        if (location.pathname.split('/')[1] === 'notes' && user.auth) {
             setAnim({width: notesRef.current.offsetWidth + 20, left: notesRef.current.offsetLeft - 10})
-        } else if (location.pathname.slice(1) === 'new-note' && user.auth) {
+        } else if (location.pathname.split('/')[1] === 'new-note' && user.auth) {
             setAnim({width: newNoteRef.current.offsetWidth + 20, left: newNoteRef.current.offsetLeft - 10})
-        } else if (location.pathname.slice(1) === 'auth') {
+        } else if (location.pathname.split('/')[1] === 'auth') {
             setAnim({width: authRef.current.offsetWidth + 20, left: authRef.current.offsetLeft - 10})
         }
     }, [])

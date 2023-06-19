@@ -13,10 +13,13 @@ class TasksControllers {
             return next(ApiError.internal(e))
         }
     }
-    async getAllForSocket() {
+    async getAllForSocket(limit, page) {
         try {
+            page = page || 1
+            limit = limit || 10
+            let offset = page * limit - limit
             let tasks
-            tasks = await Tasks.findAndCountAll()
+            tasks = await Tasks.findAndCountAll({order: [['id', 'DESC']], limit, offset})
             return tasks
         } catch (e) {
             console.log(e)
@@ -33,7 +36,7 @@ class TasksControllers {
             if (name)
                 tasks = await Tasks.findAndCountAll({where: {name}, limit, offset})
             if (!name)
-                tasks = await Tasks.findAndCountAll() // {limit, offset}
+                tasks = await Tasks.findAndCountAll({order: [['id', 'DESC']], limit, offset})
             return res.json(tasks)
         } catch (e) {
             return next(ApiError.internal(e))

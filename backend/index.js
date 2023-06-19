@@ -30,14 +30,14 @@ const io = socketIO(server, {
 io.on('connection', (socket) => {
     console.log('A user connected');
     socket.on('setTasks', () => {
-        TasksControllers.getAllForSocket()
-            .then(result => {
-                io.emit('getTasks', [...result.rows].sort((a, b) => b.id - a.id))
-        })
-            .catch(error => {
-                console.log(error)
-            })
+        io.emit('getTasks')
     })
+    socket.on('test', (page) => {
+        TasksControllers.getAllForSocket(10, page).then((response) => {
+            console.log(page)
+            socket.emit('testEm', response)
+        })
+    });
     socket.on('disconnect', () => {
         console.log('A user disconnected');
     });

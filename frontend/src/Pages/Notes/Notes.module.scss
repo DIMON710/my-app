@@ -6,3 +6,12 @@
   align-items: center;
   gap: 15px;
 }
+.pagination {
+  display: flex;
+  gap: 5px;
+  margin: 15px 0;
+  button {
+    width: 35px;
+    color: #fff;
+  }
+}
