@@ -5,13 +5,13 @@ import AppRouter from "../AppRouter.jsx";
 import {HashRouter} from "react-router-dom";
 import io from "socket.io-client";
 
-// const URL = 'http://localhost:5000';
 const URL = 'https://dimension-server-for-my-app.onrender.com';
+// const URL = 'http://localhost:5000';
 const socket = io(URL);
 function App() {
     const [user, setUser] = useState({person: '', auth: false})
     const [tasks, setTasks] = useState([])
-    const [anim, setAnim] = useState({width: 25, left: 15})
+    const [anim, setAnim] = useState({width: 25, left: 0})
     const [load, setLoad] = useState(true)
     const context = {
         IsAuth: [user, setUser],

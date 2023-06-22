@@ -3,13 +3,41 @@
   padding: 20px 0;
   margin-bottom: 20px;
   border-bottom: 1px solid #000;
-  ul {
+  position: relative;
+  min-height: 60px;
+  transition: padding-bottom 0.4s ease-in-out;
+  .burger {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 45px;
     padding: 0 10px 0 15px;
+    z-index: 2;
+    transition: top 0.4s ease-in-out;
+    &.action.active {
+      top: 20px;
+    }
+    &.action {
+      @media (max-width: 456px) {
+        flex-direction: column;
+        position: absolute;
+        top: -200px;
+        left: 0;
+        right: 0;
+      }
+    }
+    &__btn {
       z-index: 2;
+      position: absolute;
+      top: 15px;
+      right: 0;
+      transform: rotateZ(90deg);
+      font-size: 22px;
+      color: #000;
+      @media (min-width: 456px) {
+        display: none;
+      }
+    }
     li {
       a {
         color: #000;

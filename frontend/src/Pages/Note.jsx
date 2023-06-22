@@ -17,7 +17,7 @@ const Note = () => {
     const params = useParams()
     useEffect(() => {
         fetchTask(params.id)
-        setAnim({width: 25, left: 15})
+        setAnim({width: 25, left: 0})
     }, [params.id])
     return (
         <div>

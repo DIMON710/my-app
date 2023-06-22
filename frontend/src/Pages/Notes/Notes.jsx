@@ -10,7 +10,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import Button from "../../Components/UI/Button/Button.jsx";
 
 const Notes = () => {
-    const {Tasks, Anim, IsAuth, socket} = useContext(Context)
+    const {Tasks, IsAuth, socket} = useContext(Context)
     const [isAuth] = IsAuth;
     const [tasks, setTasks] = Tasks
     const [filter, setFilter] = useState(tasks)
@@ -19,7 +19,6 @@ const Notes = () => {
     const [countPage, setCountPage] = useState([1]);
     const params = useParams();
     const navigate = useNavigate();
-
     useEffect(() => {
         let fil = tasks
         if (select1 === 'all') {
