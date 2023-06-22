@@ -56,13 +56,15 @@ const Navbar = () => {
     const logout = () => {
         setUser({person: '', auth: false});
         localStorage.removeItem("auth")
-        back();
-        navigate('/');
+        navigate('/auth');
     }
     
     const navigate = useNavigate()
     return (
-        <div className={cl.navbar} style={isOpenBurger ? {paddingBottom: 160} : {}} onClick={() => setIsOpenBurger(false)}>
+        <div className={cl.navbar} style={isOpenBurger ? {paddingBottom: 160} : {}} onClick={() => {
+            setIsOpenBurger(false);
+            back();
+        }}>
             <div onClick={() => {
                 setAnim({width: 25, left: 0})
                 setBurgerAnim({left: 123, width: 124, top: -50})
