@@ -62,8 +62,10 @@ const Navbar = () => {
     const navigate = useNavigate()
     return (
         <div className={cl.navbar} style={isOpenBurger ? {paddingBottom: 160} : {}} onClick={() => {
+            if (isOpenBurger) {
+                back();
+            }
             setIsOpenBurger(false);
-            back();
         }}>
             <div onClick={() => {
                 setAnim({width: 25, left: 0})
