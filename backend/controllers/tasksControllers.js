@@ -1,5 +1,6 @@
 const ApiError = require('../error/ApiError')
 const {Tasks} = require('../models/models')
+const { Op } = require('sequelize');
 class TasksControllers {
     async addNew(req, res, next) {
         try {
@@ -39,6 +40,45 @@ class TasksControllers {
                 tasks = await Tasks.findAndCountAll({order: [['id', 'DESC']], limit, offset})
             return res.json(tasks)
         } catch (e) {
+            return next(ApiError.internal(e))
+        }
+    }
+
+    async getSort(req, res, next) {
+        try {
+            let {name, complete, page, limit, negation} = req.query
+            if (complete) {
+               complete = JSON.parse(complete)
+            }
+            page = page || 1
+            limit = limit || 10
+            let offset = page * limit - limit
+            let tasks
+            if (negation) {
+                if (name && complete !== undefined) {
+                    tasks = await Tasks.findAndCountAll({order: [['id', 'DESC']], where: {name: {[Op.ne]: name}, complete}, limit, offset})
+                    return res.json(tasks)
+                } else if (name) {
+                    tasks = await Tasks.findAndCountAll({order: [['id', 'DESC']], where: {name: {[Op.ne]: name}}, limit, offset})
+                    return res.json(tasks)
+                }
+            } else {
+                if (name && complete !== undefined) {
+                    tasks = await Tasks.findAndCountAll({order: [['id', 'DESC']], where: {name, complete}, limit, offset})
+                    return res.json(tasks)
+                } else if (name) {
+                    tasks = await Tasks.findAndCountAll({order: [['id', 'DESC']], where: {name}, limit, offset})
+                    return res.json(tasks)
+                }
+            }
+
+            if (complete !== undefined) {
+                tasks = await Tasks.findAndCountAll({order: [['id', 'DESC']], where: {complete}, limit, offset})
+                return res.json(tasks)
+            }
+            tasks = await Tasks.findAndCountAll({order: [['id', 'DESC']], limit, offset})
+            return res.json(tasks)
+        } catch(e) {
             return next(ApiError.internal(e))
         }
     }

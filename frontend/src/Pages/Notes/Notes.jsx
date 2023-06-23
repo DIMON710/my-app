@@ -19,27 +19,60 @@ const Notes = () => {
     const [countPage, setCountPage] = useState([1]);
     const params = useParams();
     const navigate = useNavigate();
+
+    const [fetchSort, isSortLoading, sortError] = useFetching(async ({name, complete, limit, page, negation}) => {
+        const response = await TasksService.getSort({name, complete, limit, page, negation});
+        const countPage = Math.ceil(response.data.count/10);
+        const pageArr = [];
+        for (let i = 0; i < countPage; i++) {
+            pageArr.push(i+1);
+        }
+        if (response.data.rows.length === 0) {
+            navigate(`/notes/${pageArr.at(-1) === undefined ? 1 : pageArr.at(-1)}`)
+        }
+        setCountPage(pageArr);
+        setFilter(response.data.rows);
+    })
+
     useEffect(() => {
         let fil = tasks
         if (select1 === 'all') {
             localStorage.setItem('select1', 'all')
+            if (select2 === 'all') {
+                fetchSort({page: params.page});
+                setFilter(fil)
+                localStorage.setItem('select2', 'all')
+            } else if (select2 === 'your') {
+                fetchSort({name: isAuth.person, page: params.page});
+                localStorage.setItem('select2', 'your')
+            } else if (select2 === 'forYou') {
+                fetchSort({name: isAuth.person, page: params.page, negation: true});
+                localStorage.setItem('select2', 'forYou')
+            }
         } else if (select1 === 'no') {
-            fil = [...tasks].filter((item) => !item.complete)
             localStorage.setItem('select1', 'no')
+            if (select2 === 'all') {
+                fetchSort({complete: false, page: params.page});
+                localStorage.setItem('select2', 'all')
+            } else if (select2 === 'your') {
+                fetchSort({name: isAuth.person, complete: false, page: params.page});
+                localStorage.setItem('select2', 'your')
+            } else if (select2 === 'forYou') {
+                fetchSort({name: isAuth.person, complete: false, page: params.page, negation: true});
+                localStorage.setItem('select2', 'forYou')
+            }
         } else if (select1 === 'yes') {
-            fil = [...tasks].filter((item) => item.complete)
             localStorage.setItem('select1', 'yes')
-        }
-
-        if (select2 === 'all') {
-            setFilter(fil)
-            localStorage.setItem('select2', 'all')
-        } else if (select2 === 'your') {
-            setFilter([...fil].filter((item) => item.name === isAuth.person))
-            localStorage.setItem('select2', 'your')
-        } else if (select2 === 'forYou') {
-            setFilter([...fil].filter((item) => item.name !== isAuth.person))
-            localStorage.setItem('select2', 'forYou')
+            if (select2 === 'all') {
+                fetchSort({complete: true, page: params.page});
+                localStorage.setItem('select2', 'all')
+            } else if (select2 === 'your') {
+                fetchSort({name: isAuth.person, complete: true, page: params.page});
+                localStorage.setItem('select2', 'your')
+            } else if (select2 === 'forYou') {
+                fetchSort({name: isAuth.person, complete: true, page: params.page, negation: true});
+                localStorage.setItem('select2', 'forYou')
+            }
         }
     }, [select1, select2, tasks])
 
@@ -50,11 +83,16 @@ const Notes = () => {
         for (let i = 0; i < countPage; i++) {
             pageArr.push(i+1);
         }
+        if (response.data.rows.length === 0) {
+            navigate(`/notes/${pageArr.at(-1) === undefined ? 1 : pageArr.at(-1)}`)
+        }
         setCountPage(pageArr);
         setTasks(response.data.rows);
     })
     useEffect(() => {
         fetchTasks(10, params.page)
+        if (params.page < 1 || isNaN(Number(params.page)))
+            navigate(`/notes/1`)
     }, [params.page])
     useEffect(() => {
         socket.on('getTasks', () => {

@@ -12,10 +12,27 @@ export default class TasksService {
     }
 
     static async getAll(limit = 10, page = 1) {
+        if (page < 1 || isNaN(Number(page))) {
+            page = 1
+        }
         return await axios.get(`${URL}/api/tasks/all`, {
             params: {
                 limit,
                 page
+            }
+        });
+    }
+
+    static async getSort({name, complete, limit, page, negation}) {
+        limit = limit || 10;
+        page = page || 1
+        return await axios.get(`${URL}/api/tasks/sort`, {
+            params: {
+                name,
+                complete,
+                limit,
+                page,
+                negation
             }
         });
     }
