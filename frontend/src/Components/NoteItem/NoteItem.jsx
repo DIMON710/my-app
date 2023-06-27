@@ -23,14 +23,14 @@ const NoteItem = ({item}) => {
         e.stopPropagation()
         setNotes(notes.map((note, i) => i === index ? {...note, complete: !notes[index].complete} : note))
         putTasks(item.id, !item.complete).then( () => {
-            socket.emit('setTasks');
+            socket.emit('setTasks', socket.id);
         });
     }
     const deleteFunc = (e) => {
         e.stopPropagation()
         setNotes(notes.filter((note, i) => i !== index))
         removeTasks(item.id).then( () => {
-            socket.emit('setTasks');
+            socket.emit('setTasks', socket.id);
         });
     }
     const toTask = () => {

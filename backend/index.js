@@ -29,8 +29,8 @@ const io = socketIO(server, {
 
 io.on('connection', (socket) => {
     console.log('A user connected');
-    socket.on('setTasks', () => {
-        io.emit('getTasks')
+    socket.on('setTasks', (data) => {
+        io.emit('getTasks', data)
     })
     socket.on('test', (page) => {
         TasksControllers.getAllForSocket(10, page).then((response) => {

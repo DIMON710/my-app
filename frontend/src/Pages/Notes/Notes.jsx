@@ -95,22 +95,24 @@ const Notes = () => {
             navigate(`/notes/1`)
     }, [params.page])
     useEffect(() => {
-        socket.on('getTasks', () => {
-            socket.emit('test', location.hash.at(-1))
-            socket.on('testEm', (data) => {
-                const countPage = Math.ceil(data.count/10);
-                const pageArr = [];
-                for (let i = 0; i < countPage; i++) {
-                    pageArr.push(i+1);
-                }
-                setCountPage(pageArr);
-                if (data.rows !== undefined){
-                    if (data.rows.length === 0) {
-                        navigate(`/notes/${countPage}`)
+        socket.on('getTasks', (data) => {
+            if (socket.id !== data) {
+                socket.emit('test', location.hash.at(-1))
+                socket.on('testEm', (data) => {
+                    const countPage = Math.ceil(data.count/10);
+                    const pageArr = [];
+                    for (let i = 0; i < countPage; i++) {
+                        pageArr.push(i+1);
                     }
-                    setTasks(data.rows);
-                }
-            });
+                    setCountPage(pageArr);
+                    if (data.rows !== undefined){
+                        if (data.rows.length === 0) {
+                            navigate(`/notes/${countPage}`)
+                        }
+                        setTasks(data.rows);
+                    }
+                });
+            }
         });
     },[socket]);
     return (

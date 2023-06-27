@@ -17,7 +17,7 @@ const NewNote = () => {
     const addTask = () => {
         if (task !== '') {
             fetchTasks(user.person, task).then( () => {
-                socket.emit('setTasks');
+                socket.emit('setTasks', socket.id);
             });
             setTask('');
         }
